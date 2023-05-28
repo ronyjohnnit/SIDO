@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Map Example</title>
+  <!-- Include Leaflet CSS and JavaScript -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #map {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    // Initialize the map
+    var map = L.map('map').setView([24.777883, 93.825164], 8); // Set initial center and zoom level
+
+    // Add a tile layer to the map (using OpenStreetMap tiles)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+      maxZoom: 18
+    }).addTo(map);
+
+    // Define the marker coordinates and popup content
+    var markerCoordinates = [
+
+    //  {lat: 23.3825020, lon: 76.7268390,name:"SHUJALPUR SAHKARI VIPANAN"}];
+
+
+      /*{name:"JAYCEE GAS AGENCY",lat:25.92093,lon:80.79725}
+      {name:"SRI VAISNU DEVI INDANE GAS SERVICE",lat:12.7413809,lon:77.8328892}*/
+    /*  { lat: 24.8133022, lon: 93.8565507, name: "ABC Indane" },
+      { lat: 24.8134166, lon: 93.8516527, name: "XYZ Indane " },
+      { lat: 24.8134299, lon: 93.8589557, name: "MNS Indane" },*/
+      {"name":"LUNGPHU INDANE GRAMIN VITRAK","lat":24.944105,"lon":94.24626},
+{"name":"KACHAI INDANE GRAMIN VITRAK","lat":25.23106,"lon":94.26606},
+{"name":"M M GAS SERVICE","lat":24.787461,"lon":93.935221},
+{"name":"RAKOVI INDANE GRAMIN VITRAK","lat":25.49402,"lon":94.29191},
+{"name":"HONGMAHN GULAMACHU INDANE GRAMIN VI","lat":24.573,"lon":94.0354},
+{"name":"YAIRIPOK GAS SERVICE","lat":24.6715413,"lon":94.0429912},
+{"name":"TH. HESHO INDANE GRAMIN VITRAK","lat":24.76383,"lon":93.85573},
+{"name":"ZINGSHO GAS SERVICE","lat":25.0953918,"lon":94.3616456},
+{"name":"ZIMIK INDANE GRAMIN VITRAK","lat":24.960282,"lon":94.4754696},
+{"name":"BUNGMUAL INDANE GRAMIN VITRAK","lat":24.3342802499273,"lon":93.6815051945293},
+{"name":"EMOINU GAS AGENCY","lat":24.807457,"lon":93.114739},
+{"name":"SIALNGENTHANG & SONS","lat":24.3376461,"lon":93.6971732},
+{"name":"KASOMKHULLEN INDANE GRAMIN VIT","lat":24.6749971,"lon":94.2745057},
+{"name":"WILLONG INDANE GRAMIN VITRAK","lat":25.16335,"lon":94.01405},
+{"name":"MAIBIA GAS DISTRIBUTOR","lat":24.4528388,"lon":93.8044831},
+{"name":"JEMON GAS SERVICE","lat":24.7830861566685,"lon":93.9375861097856},
+{"name":"H.S.INDANE GRAMIN VITRAK","lat":25.001096,"lon":93.903532},
+{"name":"IMPHAL LPG SERVICE","lat":24.7932976,"lon":93.9368538},
+{"name":"MISAO GAS SERVICE","lat":24.82597,"lon":93.9461},
+{"name":"PHUNGYAR INDANE GRAMIN VITRAK","lat":24.48442,"lon":94.21207},
+{"name":"TOLLOI INDANE GRAMIN VITRAK","lat":25.1926,"lon":943244},
+{"name":"JS INDANE SERVICE","lat":25.1464,"lon":93.96894},
+{"name":"MANIPUR GAS SERVICE","lat":24.83314,"lon":93.94655},
+{"name":"LOKTAK INDANE GRAMIN VITRAK","lat":24.528375,"lon":93.819041},
+{"name":"MANTRIPUKHRI IGAR(S) INDANE AGENCY","lat":150,"lon":100},
+{"name":"CANCHI INDANE SERVICE","lat":24.764687,"lon":93.936674},
+{"name":"KIM-JOE GAS SERVICE","lat":24.3414913,"lon":93.7002455},
+{"name":"VANGSEI INDANE GRAMIN VITRAK K.SALB","lat":24.376754,"lon":93.706959},
+{"name":"HEINGANG INDANE GRAMIN VITRAK","lat":24.85473,"lon":93.95411},
+{"name":"IBOYAIMA TADUBI GAS AGENCY","lat":24.7852105,"lon":93.9394703},
+{"name":"BINGPA INDANE GRAMIN VITRAK","lat":24.83128,"lon":94.44274},
+{"name":"BHUTANGKHAL INDANE GRAMIN VITRAK","lat":24.658177,"lon":93.107962},
+{"name":"SANGBIAKLAL INDANE GRAMIN VITRAK","lat":24.247627,"lon":93.656829},
+{"name":"KHURKHUL HEIKHAM INDANE GRAMIN","lat":24.912874,"lon":93.860656},
+{"name":"SENAPATI INDANE SERVICE","lat":25.16305,"lon":94.01378},
+{"name":"J.RONGMEI S.K.INDANE GRAMIN VI","lat":24.7842091,"lon":93.9392829},
+{"name":"ASHANGBI INDANE GRAMIN VITRAK","lat":24.297299,"lon":93.877134},
+{"name":"KHONGNANG GAS AGENCY","lat":24.5734526,"lon":93.7639508},
+{"name":"PHAYENG INDANE GRAMIN VITRAK","lat":24.846489,"lon":93.818159},
+{"name":"HIYANGTHANG INDANE GRAMIN VITRAK","lat":24.729321,"lon":93.900063},
+{"name":"HUILENG INDANE GRAMIN VITRAK","lat":24.17,"lon":93.37},
+{"name":"ATHOKPAM INDANE SERVICE","lat":24.6311972,"lon":94.0090538},
+{"name":"HRANGCHAL GAS AGENCY","lat":24.8002516439088,"lon":93.9388459355652},
+{"name":"SONGTAL INDANE GRAMIN VITRAK","lat":24.164711,"lon":93.367392},
+{"name":"SAWOMBUNG INDANE SERVICE","lat":24.870716,"lon":94.013201},
+{"name":"KHORIPHABA LPG SERVICE","lat":244315.8,"lon":935030.2},
+{"name":"HEIROK INDANE GRAMIN VITRAK","lat":24.585285,"lon":94.066767},
+{"name":"NONGPOK SEKMAI JCD INDANE GRAMIN VI","lat":24.650207,"lon":94.097333},
+{"name":"HARAN VALLEY INDANE GRAMIN VIT","lat":24.451116,"lon":93.732486},
+{"name":"LAMBODARA INDANE SERVICE","lat":24.8512367,"lon":93.9349702},
+{"name":"LAICHING KANGSHANG INDANE GRAMIN VI","lat":24.453895,"lon":94.025295},
+{"name":"TEINEM INDANE GRAMIN VITRAK","lat":25.04828,"lon":94.35883},
+{"name":"KHUMBONG INDANE GRAMIN VITRAK","lat":24.777883,"lon":93.825164},
+{"name":"HUNDUNG INDANE GRAMIN VITRAK","lat":25.084664,"lon":94.357512},
+{"name":"TOUSEM INDANE GRAMIN VITRAK","lat":24.987934,"lon":93.495292},
+{"name":"PHAIBUNG D.R.DUO INDANE GRAMIN VITR","lat":25.42888738,"lon":94.33868044},
+{"name":"NEW CANNON INDANE GRAMIN VITRAK","lat":24.906854,"lon":94.12467},
+{"name":"THOMSON INDANE AGENCY","lat":24.9931415,"lon":93.4995299},
+{"name":"LAMSHANG GAS AGENCY","lat":24.8214236,"lon":93.8682885},
+{"name":"R&H INDANE SERVICE","lat":27.75787,"lon":93.97963},
+{"name":"HAOKIP GAS SERVICE","lat":24.243487,"lon":94.30423},
+{"name":"PHOUBAKCHAO INDANE GRAMIN VITRAK","lat":24.5580706,"lon":93.9006971},
+{"name":"PANCHAM AR INDANE AGENCY","lat":25.4236,"lon":94.1066},
+{"name":"LEIBAKLEI GAS SERVICE","lat":24.5043993,"lon":93.9787051},
+{"name":"GBD INDANE SERVICE","lat":24.8223655,"lon":93.9769332},
+{"name":"SANTHEL BAZAR INDANE GRAMIN VITRAK","lat":23.5734817,"lon":93.9147793},
+
+    ];
+
+
+
+
+    // Add markers to the map
+    markerCoordinates.forEach(function(marker) {
+      var markerLocation = new L.LatLng(marker.lat, marker.lon);
+      var markerPopup = marker.name;
+
+      L.marker(markerLocation).addTo(map).bindPopup(markerPopup);
+    });
+  </script>
+</body>
+</html>
