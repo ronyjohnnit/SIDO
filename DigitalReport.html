@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Region-wise Data Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Region-wise Data Chart</h1>
+  <div>
+    <label for="region-filter">Select Region:</label>
+    <select id="region-filter" onchange="handleRegionFilter()">
+      <option value="all">All Regions</option>
+      <option value="East">East</option>
+      <option value="South">South</option>
+      <option value="North">North</option>
+      <option value="West">West</option>
+    </select>
+  </div>
+  <canvas id="myChart" width="100" height="38"></canvas>
+
+  <script>
+    let jsonData; // Global variable to store the JSON data
+    let myChart; // Global variable to store the chart instance
+
+    // Function to update the chart based on selected region
+    function updateChart(region) {
+      // Destroy existing chart instance if it exists
+      if (myChart) {
+        myChart.destroy();
+      }
+
+      // Filter data based on selected region
+      let filteredData = jsonData.Sheet1;
+      if (region !== "all") {
+        filteredData = jsonData.Sheet1.filter(obj => obj.Region === region);
+      }
+
+      // Extract the required data for the chart
+      const labels = [];
+      const iocPmuyDigitalPercentage = [];
+      const iocNonPmuyDigitalPercentage = [];
+      const iocTotalDigitalPercentage = [];
+
+      filteredData.forEach(obj => {
+        labels.push(obj.State);
+
+        const iocPmuyDigital = obj["IOC PMUY Digital"];
+        const iocPmuyTotal = obj["IOC PMUY Total"];
+        const iocNonPmuyDigital = obj["IOC NON-PMUY Digital"];
+        const iocNonPmuyTotal = obj["IOC Non PMUY Total"];
+        const iocTotalDigital = obj["IOC Total Digital "];
+        const iocTotal = obj["IOC Total"];
+
+        const pmuyDigitalPercentage = (iocPmuyDigital / iocPmuyTotal) * 100;
+        const nonPmuyDigitalPercentage = (iocNonPmuyDigital / iocNonPmuyTotal) * 100;
+        const totalDigitalPercentage = (iocTotalDigital / iocTotal) * 100;
+
+        iocPmuyDigitalPercentage.push(pmuyDigitalPercentage);
+        iocNonPmuyDigitalPercentage.push(nonPmuyDigitalPercentage);
+        iocTotalDigitalPercentage.push(totalDigitalPercentage);
+      });
+
+      // Create chart
+      var ctx = document.getElementById('myChart').getContext('2d');
+      myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'IOC PMUY Digital',
+            data: iocPmuyDigitalPercentage,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          }, {
+            label: 'IOC NON-PMUY Digital',
+            data: iocNonPmuyDigitalPercentage,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }, {
+            label: 'IOC Total Digital',
+            data: iocTotalDigitalPercentage,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              beginAtZero: true
+            },
+            y: {
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+    }
+
+    // Event handler for region filter change
+    function handleRegionFilter() {
+      const regionFilter = document.getElementById('region-filter');
+      const selectedRegion = regionFilter.value;
+      updateChart(selectedRegion);
+    }
+
+    // Load JSON data
+    fetch('Digital.json')
+      .then(response => response.json())
+      .then(data => {
+        jsonData = data;
+        updateChart("all");
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
+  </script>
+</body>
+</html>
