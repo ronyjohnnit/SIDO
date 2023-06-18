@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Region-wise Data Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Region-wise Data Chart</h1>
+  <div>
+    <label for="region-filter">Select Region:</label>
+    <select id="region-filter" onchange="handleFilterChange()">
+      <option value="all">All Regions</option>
+      <option value="East">East</option>
+      <option value="South">South</option>
+      <option value="North">North</option>
+      <option value="West">West</option>
+    </select>
+    <label for="digital-type-filter">Select Digital Type:</label>
+    <select id="digital-type-filter" onchange="handleFilterChange()">
+      <option value="all">All</option>
+      <option value="PMUY">PMUY</option>
+      <option value="Non-PMUY">Non-PMUY</option>
+    </select>
+  </div>
+  <canvas id="myChart" width="100" height="38"></canvas>
+
+  <script>
+    let jsonData; // Global variable to store the JSON data
+    let myChart; // Global variable to store the chart instance
+
+    // Function to update the chart based on selected region and digital type
+    function updateChart(region, digitalType) {
+      // Destroy existing chart instance if it exists
+      if (myChart) {
+        myChart.destroy();
+      }
+      
+      //alert(region+" "+digitalType);
+
+      // Filter data based on selected region and digital type
+      let filteredData = jsonData.Sheet1;
+      if (region !== "all") {
+        filteredData = filteredData.filter(obj => obj.Region === region);
+      }
+      
+      // Create chart
+      var ctx = document.getElementById('myChart').getContext('2d');
+      myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: [],
+          datasets: []
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              beginAtZero: true
+            },
+            y: {
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+
+      if (digitalType === "PMUY") {
+        updatePMUYChart(filteredData);
+      } else if (digitalType === "Non-PMUY") {
+        updateNonPMUYChart(filteredData);
+      } else if (digitalType === "all") {
+        updateAllChart(filteredData);
+      }
+    }
+
+    // Function to update the chart for PMUY digital type
+    function updatePMUYChart(data) {
+      // Extract the required data for the chart
+      const labels = data.map(obj => obj.State);
+      const iocPmuyDigitalPercentage = data.map(obj => (obj["IOC PMUY Digital"] / obj["IOC PMUY Total"]) * 100);
+      const bpcPmuyDigitalPercentage = data.map(obj => (obj["BPC PMUY Digital"] / obj["BPC PMUY Total"]) * 100);
+      const hpcPmuyDigitalPercentage = data.map(obj => (obj["HPC PMUY Digital"] / obj["HPC PMUY Total"]) * 100);
+
+      // Create chart
+      myChart.data.labels = labels;
+      myChart.data.datasets = [
+        {
+          label: 'IOC PMUY Digital',
+          data: iocPmuyDigitalPercentage,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'BPC PMUY Digital',
+          data: bpcPmuyDigitalPercentage,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'HPC PMUY Digital',
+          data: hpcPmuyDigitalPercentage,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }
+      ];
+      myChart.update();
+    }
+
+    // Function to update the chart for Non-PMUY digital type
+    function updateNonPMUYChart(data) {
+      // Extract the required data for the chart
+      const labels = data.map(obj => obj.State);
+      const iocNonPmuyDigitalPercentage = data.map(obj => (obj["IOC NON-PMUY Digital"] / obj["IOC Non PMUY Total"]) * 100);
+      const bpcNonPmuyDigitalPercentage = data.map(obj => (obj["BPC NON-PMUY Digital"] / obj["BPC Non PMUY Total"]) * 100);
+      const hpcNonPmuyDigitalPercentage = data.map(obj => (obj["HPC NON-PMUY Digital"] / obj["HPC Non PMUY Total"]) * 100);
+
+      // Create chart
+      myChart.data.labels = labels;
+      myChart.data.datasets = [
+        {
+          label: 'IOC NON-PMUY Digital',
+          data: iocNonPmuyDigitalPercentage,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'BPC NON-PMUY Digital',
+          data: bpcNonPmuyDigitalPercentage,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'HPC NON-PMUY Digital',
+          data: hpcNonPmuyDigitalPercentage,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }
+      ];
+      myChart.update();
+    }
+
+    // Function to update the chart for All digital type
+    function updateAllChart(data) {
+      // Extract the required data for the chart
+      const labels = data.map(obj => obj.State);
+      const iocTotalDigitalPercentage = data.map(obj => (obj["IOC Total Digital "] / obj["IOC Total"]) * 100);
+      const bpcTotalDigitalPercentage = data.map(obj => (obj["BPC Total Digital "] / obj["BPC Total"]) * 100);
+      const hpcTotalDigitalPercentage = data.map(obj => (obj["HPC Total Digital "] / obj["HPC Total"]) * 100);
+
+  // Sort the IOC data in descending order
+     /* const sortedIndices = iocTotalDigitalPercentage.map((_, index) => index).sort((a, b) => iocTotalDigitalPercentage[b] - iocTotalDigitalPercentage[a]);
+      const sortedLabels = sortedIndices.map(index => labels[index]);
+      const sortediocTotalDigitalPercentage = sortedIndices.map(index => iocTotalDigitalPercentage[index]);
+      const sortedBpcAllDigitalPercentage = sortedIndices.map(index => bpcTotalDigitalPercentage[index]);
+      const sortedHpcAllDigitalPercentage = sortedIndices.map(index => bpcTotalDigitalPercentage[index]);*/
+
+      // Create chart
+      myChart.data.labels = labels;
+     // myChart.data.labels = sortedLabels;
+      myChart.data.datasets = [
+        {
+          label: 'IOC Total Digital',
+          data: iocTotalDigitalPercentage,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'BPC Total Digital',
+          data: bpcTotalDigitalPercentage,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'HPC Total Digital',
+          data: hpcTotalDigitalPercentage,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }
+      ];
+      myChart.update();
+    }
+
+    // Event handler for region and digital type filter change
+    function handleFilterChange() {
+      const regionFilter = document.getElementById('region-filter');
+      const digitalTypeFilter = document.getElementById('digital-type-filter');
+      const selectedRegion = regionFilter.value;
+      const selectedDigitalType = digitalTypeFilter.value;
+      updateChart(selectedRegion, selectedDigitalType);
+    }
+
+    // Load JSON data
+    fetch('Digital.json')
+      .then(response => response.json())
+      .then(data => {
+        jsonData = data;
+        updateChart("all", "all");
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
+  </script>
+</body>
+</html>
