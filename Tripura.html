@@ -40,29 +40,31 @@
     var markerCoordinates = [
 
    
-    {"name":"B.B.GAS AGENCY","lat":23.9382799,"lon":91.824054},
-{"name":"CHAILENGTA INDANE GRAMIN VITRA","lat":23.943567,"lon":92.002249},
-{"name":"GANDACHARA INDANE GRAMIN VITRAK","lat":23.590442,"lon":91.805748},
-{"name":"NKD GAS SERVICE","lat":24.1984,"lon":91.835768},
-{"name":"RAKHALTALI INDANE GRAMIN VITRA","lat":24.001577,"lon":91.829728},
-{"name":"SURADHANI INDANE GRAMIN VITRAK","lat":24.010024,"lon":91.835494},
-{"name":"DAKSHIN RAMCHANDRAGHAT INDANE GRAMIN VITRAK","lat":24.00133,"lon":91.58667},
-{"name":"FLORINA INDANE GRAMIN VITRAK","lat":23.83225441,"lon":91.684021},
-{"name":"KALYANPUR INDANE GRAMIN VITRAK","lat":23.91763,"lon":91.60786},
-{"name":"KHASIAMANGAL PRAHARI GAS AGENCY","lat":23.7945703,"lon":91.6419181},
-{"name":"MANMOHINI INDANE GRAMIN VITRAK","lat":24.013193,"lon":91.621399},
-{"name":"UNITED GAS AGENCY","lat":23.842943,"lon":91.622253},
-{"name":"PURBA LAXMICHERRA INDANE GRAMIN VITRAK","lat":24.13576,"lon":91.68496}
+    {"name":"B.B.GAS AGENCY","lat":23.9382799,"lon":91.824054, "Active_Customer":"14007" , "PMUY":"6783", "NON_PMUY":"7224"},
+{"name":"CHAILENGTA INDANE GRAMIN VITRA","lat":23.943567,"lon":92.002249,"Active_Customer":"7498" , "PMUY":"6572", "NON_PMUY":"926"},
+{"name":"GANDACHARA INDANE GRAMIN VITRAK","lat":23.590442,"lon":91.805748,"Active_Customer":"10155" , "PMUY":"7630", "NON_PMUY":"2525"},
+{"name":"NKD GAS SERVICE","lat":24.1984,"lon":91.835768,"Active_Customer":"11664" , "PMUY":"5236", "NON_PMUY":"6428"},
+{"name":"RAKHALTALI INDANE GRAMIN VITRA","lat":24.001577,"lon":91.829728,"Active_Customer":"7524" , "PMUY":"3023", "NON_PMUY":"4501"},
+{"name":"SURADHANI INDANE GRAMIN VITRAK","lat":24.010024,"lon":91.835494,"Active_Customer":"9482" , "PMUY":"5234", "NON_PMUY":"4249"},
+{"name":"DAKSHIN RAMCHANDRAGHAT INDANE GRAMIN VITRAK","lat":24.00133,"lon":91.58667,"Active_Customer":"6784","PMUY":"3661","NON_PMUY":"3123"},
+{"name":"FLORINA INDANE GRAMIN VITRAK","lat":23.83225441,"lon":91.684021,"Active_Customer":"288" , "PMUY":"153", "NON_PMUY":"135"},
+{"name":"KALYANPUR INDANE GRAMIN VITRAK","lat":23.91763,"lon":91.60786 ,"Active_Customer":"10869" , "PMUY":"5150", "NON_PMUY":"5719"},
+{"name":"KHASIAMANGAL PRAHARI GAS AGENCY","lat":23.7945703,"lon":91.6419181 ,"Active_Customer":"129" , "PMUY":"0", "NON_PMUY":"129"},
+{"name":"MANMOHINI INDANE GRAMIN VITRAK","lat":24.013193,"lon":91.621399 ,"Active_Customer":"23320" , "PMUY":"10613", "NON_PMUY":"12707"},
+{"name":"PURBA LAXMICHERRA INDANE GRAMIN VITRAK","lat":24.13576,"lon":91.68496,"Active_Customer":"4865" , "PMUY":"3388", "NON_PMUY":"1477"},
+{"name":"UNITED GAS AGENCY","lat":23.842943,"lon":91.622253,"Active_Customer":"18309" , "PMUY":"7611", "NON_PMUY":"10698"}
 
     ];
 
+
+    
 
 
 
     // Add markers to the map
     markerCoordinates.forEach(function(marker) {
       var markerLocation = new L.LatLng(marker.lat, marker.lon);
-      var markerPopup = marker.name;
+      var markerPopup = marker.name+"<br>Active Customers: " + marker.Active_Customer+"<br>PMUY Customers: " + marker.PMUY+"<br>NoN PMUY Customers: " + marker.NON_PMUY;
 
       L.marker(markerLocation).addTo(map).bindPopup(markerPopup);
     });
