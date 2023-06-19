@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Map Example</title>
+  <!-- Include Leaflet CSS and JavaScript -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #map {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    // Initialize the map
+    var map = L.map('map').setView([24.010024, 91.835494], 10); // Set initial center and zoom level
+
+    // Add a tile layer to the map (using OpenStreetMap tiles)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+      maxZoom: 18
+    }).addTo(map);
+
+    // Define the marker coordinates and popup content
+    var markerCoordinates = [
+
+   
+    {"name":"B.B.GAS AGENCY","lat":23.9382799,"lon":91.824054},
+{"name":"CHAILENGTA INDANE GRAMIN VITRA","lat":23.943567,"lon":92.002249},
+{"name":"GANDACHARA INDANE GRAMIN VITRAK","lat":23.590442,"lon":91.805748},
+{"name":"NKD GAS SERVICE","lat":24.1984,"lon":91.835768},
+{"name":"RAKHALTALI INDANE GRAMIN VITRA","lat":24.001577,"lon":91.829728},
+{"name":"SURADHANI INDANE GRAMIN VITRAK","lat":24.010024,"lon":91.835494},
+{"name":"DAKSHIN RAMCHANDRAGHAT INDANE GRAMIN VITRAK","lat":24.00133,"lon":91.58667},
+{"name":"FLORINA INDANE GRAMIN VITRAK","lat":23.83225441,"lon":91.684021},
+{"name":"KALYANPUR INDANE GRAMIN VITRAK","lat":23.91763,"lon":91.60786},
+{"name":"KHASIAMANGAL PRAHARI GAS AGENCY","lat":23.7945703,"lon":91.6419181},
+{"name":"MANMOHINI INDANE GRAMIN VITRAK","lat":24.013193,"lon":91.621399},
+{"name":"UNITED GAS AGENCY","lat":23.842943,"lon":91.622253},
+{"name":"PURBA LAXMICHERRA INDANE GRAMIN VITRAK","lat":24.13576,"lon":91.68496}
+
+    ];
+
+
+
+
+    // Add markers to the map
+    markerCoordinates.forEach(function(marker) {
+      var markerLocation = new L.LatLng(marker.lat, marker.lon);
+      var markerPopup = marker.name;
+
+      L.marker(markerLocation).addTo(map).bindPopup(markerPopup);
+    });
+  </script>
+</body>
+</html>
