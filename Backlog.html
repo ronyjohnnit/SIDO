@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distributors Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; width: 100%; }
+    </style>
+</head>
+<body>
+    <h3>Distributors Map</h3>
+    <div id="map"></div>
+    
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([24.0, 92.0], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Fetch data from the JSON file
+        fetch('distributors.json')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(function(distributor) {
+                    if (distributor.Lat && distributor.Long) { // Check if latitude and longitude are available
+                        L.marker([distributor.Lat, distributor.Long])
+                            .addTo(map)
+                            .bindPopup(`<b>${distributor.DISTRIBUTOR_NAME}</b><br>${distributor.SALES_AREA_NAME}<br>${distributor.STATE_NAME}, ${distributor.DISTRICT_NAME}`);
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading JSON data:', error));
+    </script>
+</body>
+</html>
