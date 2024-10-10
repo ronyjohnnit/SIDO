@@ -22,15 +22,42 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        // Function to determine marker color based on backlog
+        function getMarkerColor(backlog) {
+            if (backlog < 1) {
+                return 'green';
+            } else if (backlog >= 1 && backlog <= 3) {
+                return 'yellow';
+            } else {
+                return 'red';
+            }
+        }
+
         // Fetch data from the JSON file
         fetch('distributors.json')
             .then(response => response.json())
             .then(data => {
                 data.forEach(function(distributor) {
                     if (distributor.Lat && distributor.Long) { // Check if latitude and longitude are available
-                        L.marker([distributor.Lat, distributor.Long])
-                            .addTo(map)
-                            .bindPopup(`<b>${distributor.DISTRIBUTOR_NAME}</b><br>${distributor.SALES_AREA_NAME}<br>${distributor.STATE_NAME}, ${distributor.DISTRICT_NAME}`);
+                        var markerColor = getMarkerColor(distributor.BACKLOG);
+
+                        var marker = L.circleMarker([distributor.Lat, distributor.Long], {
+                            color: markerColor,
+                            radius: 8,
+                            fillOpacity: 0.8
+                        }).addTo(map);
+
+                        marker.bindPopup(
+                            `<b>${distributor.DISTRIBUTOR_NAME}</b><br>
+                            ${distributor.SALES_AREA_NAME}<br>
+                            ${distributor.STATE_NAME}, ${distributor.DISTRICT_NAME}<br><br>
+                            <b>Backlog:</b> ${distributor.BACKLOG}<br>
+                            <b>Previous Day Delivery:</b> ${distributor['Previous Day Delivery']}<br>
+                            <b>Stock:</b> ${distributor.STOCK}<br>
+                            <b>Pending Deliveries:</b> ${distributor['Pending Deliveries']}<br>
+                            <b>>10 Days:</b> ${distributor['>10Days']}<br>
+                            <b>>20 Days:</b> ${distributor['>20days']}`
+                        );
                     }
                 });
             })
